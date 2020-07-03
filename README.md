@@ -1,3 +1,3 @@
 # tech
-<h1>CSS Grid</h1>
+<h4>CSS Grid</h4>
 <p>Technical documentation</p>
