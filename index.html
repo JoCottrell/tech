@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Technical Documentation - CSS Grid</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+
+
+<head>
+  <title>Technical Documentation - CSS Grid</title>
+</head>
+
+<body>
+  
+  <nav id="navbar">
+    <header>
+      <h1>A Complete Guide to CSS Grid</h1>
+    </header>
+    <ol id="nav-list">
+      <a href="#Introduction" class="nav-link"><li>Introduction</li></a>
+      <a href="#basics_and_browser_support" class="nav-link"><li>Basics and Browser Support</li></a>
+      <a href="#important_terminology" class="nav-link"><li>Important Terminology</li></a>
+      <a href="#the_most_powerful_lines_in_grid" class="nav-link"><li>The Most Powerful Lines in Grid</li></a>
+  
+      <a href="#properties_for_the_parent_(grid_container)" class="nav-link"><li>Properties for the Parent (Grid Container)</li></a>
+      <a href="#properties_for_the_children_(grid_items)" class="nav-link"><li>Properties for the Children (Grid Items)</li></a>
+      <a href="#animation" class="nav-link"><li>Animation</li></a>
+      <a href="#Reference" class="nav-link"><li>Reference</li></a>
+    </ol>
+  </nav>
+  <div id="container1">
+  <main id="main-doc">
+    <section id="Introduction" class="main-section">
+      <header>
+        <h2>Introduction</h2>
+      </header>
+      <article>
+      <p>
+        CSS Grid Layout (aka “Grid”), is a two-dimensional grid-based layout system that aims to do nothing less than completely change the way we design grid-based user interfaces. CSS has always been used to lay out our web pages, but it’s never done a very good job of it. First, we used tables, then floats, positioning and inline-block, but all of these methods were essentially hacks and left out a lot of important functionality (vertical centering, for instance). Flexbox helped out, but it’s intended for simpler one-dimensional layouts, not complex two-dimensional ones (Flexbox and Grid actually work very well together). Grid is the very first CSS module created specifically to solve the layout problems we’ve all been hacking our way around for as long as we’ve been making websites.</p>
+      <p>There are two primary things that inspired me to create this guide. The first is Rachel Andrew’s awesome book Get Ready for CSS Grid Layout. It’s a thorough, clear introduction to Grid and is the basis of this entire article. I highly encourage you to buy it and read it. My other big inspiration is Chris Coyier’s A Complete Guide to Flexbox, which has been my go-to resource for everything flexbox. It’s helped a ton of people, evident by the fact that it’s the top result when you Google “flexbox.” You’ll notice many similarities between his post and mine, because why not steal from the best?</p>
+
+ <p>My intention with this guide is to present the Grid concepts as they exist in the very latest version of the specification. So I won’t be covering the out of date IE syntax, and I’ll do my best to update this guide regularly as the spec matures.</p>
+      </article>
+    </section>
+    
+    <section id="basics_and_browser_support" class="main-section">
+      <header>
+        <h2>Basics and Browser Support</h2>
+      </header>
+      <article>
+      <p>As of March 2017, most browsers shipped native, unprefixed support for CSS Grid: Chrome (including on Android), Firefox, Safari (including on iOS), and Opera. Internet Explorer 10 and 11 on the other hand support it, but it’s an old implementation with an outdated syntax. The time to build with grid is now!</p>
+      <p>To get started you have to define a container element as a grid with display: grid, set the column and row sizes with grid-template-columns and grid-template-rows, and then place its child elements into the grid with grid-column and grid-row. Similarly to flexbox, the source order of the grid items doesn’t matter. Your CSS can place them in any order, which makes it super easy to rearrange your grid with media queries. Imagine defining the layout of your entire page, and then completely rearranging it to accommodate a different screen width all with only a couple lines of CSS. Grid is one of the most powerful CSS modules ever introduced.</p>
+      </article>
+    </section>
+
+    <section id="important_terminology" class="main-section">
+      <header>
+        <h2>Important Terminology</h2>
+      </header>
+      <article>
+      <p>Before diving into the concepts of Grid it’s important to understand the terminology. Since the terms involved here are all kinda conceptually similar, it’s easy to confuse them with one another if you don’t first memorize their meanings defined by the Grid specification. But don’t worry, there aren’t many of them.</p>
+        <h3>Grid Container</h3>
+<p>The element on which display: grid is applied. It’s the direct parent of all the grid items. In this example container is the grid container.</p>
+        
+    
+        <xmp><div class="container">
+  <div class="item item-1"> </div>
+  <div class="item item-2"> </div>
+  <div class="item item-3"> </div>
+          </div>
+          </xmp>
+       
+        <h3>Grid Line</h3>
+<p>The dividing lines that make up the structure of the grid. They can be either vertical (“column grid lines”) or horizontal (“row grid lines”) and reside on either side of a row or column. Here the yellow line is an example of a column grid line.</p>
+        
+        <img src="https://css-tricks.com/wp-content/uploads/2018/11/terms-grid-line.svg" alt="description" height="350" width="350" longdesc="" />
+     
+  <h3>Grid Track</h3>
+<p>The space between two adjacent grid lines. You can think of them like the columns or rows of the grid. Here’s the grid track between the second and third row grid lines.</p>      
+        
+        <img src="https://css-tricks.com/wp-content/uploads/2018/11/terms-grid-track.svg" alt="description" height="350" width="350" longdesc="" />
+        
+        
+        <h3>Grid Area</h3>
+<p>The total space surrounded by four grid lines. A grid area may be composed of any number of grid cells. Here’s the grid area between row grid lines 1 and 3, and column grid lines 1 and 3.</p>
+        
+        <img src="https://css-tricks.com/wp-content/uploads/2018/11/terms-grid-area.svg" alt="description" height="350" width="350" longdesc="" />
+        
+        <h3>Grid Item</h3>
+<p>The children (i.e. direct descendants) of the grid container. Here the item elements are grid items, but sub-item isn’t.</p>  
+
+<xmp><div class="container">
+  <div class="item"> </div>
+  <div class="item">
+    <p class="sub-item"> </p>
+  </div>
+  <div class="item"> </div>
+  </div></xmp>
+        
+   <h3>Grid Cell</h3>
+<p>The space between two adjacent row and two adjacent column grid lines. It’s a single “unit” of the grid. Here’s the grid cell between row grid lines 1 and 2, and column grid lines 2 and 3.</p> 
+        
+        <img src="https://css-tricks.com/wp-content/uploads/2018/11/terms-grid-cell.svg" alt="description" height="350" width="350" longdesc="" />
+
+      </article>
+    </section>
+    
+    <section id="the_most_powerful_lines_in_grid" class="main-section">
+      <header>
+        <h2>The Most Powerful Lines in Grid</h2>
+      </header>
+      <article>
+      <p>Fluid width columns that break into more or less columns as space is available, with no media queries!</p>
+      <code>.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  /* This is better for small screens, once min() is better supported */
+  /* grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr)); */
+  grid-gap: 1rem;
+  /* This is the standardized property now, but has slightly less support */
+  /* gap: 1rem */
+        }</code>
+        
+        <p>But you can choose to explicitly name the lines. Note the bracket syntax for the line names:</p>
+        
+      </article>
+    </section>
+
+    <section id="properties_for_the_parent_(grid_container)" class="main-section">
+      <header>
+        <h2>Properties for the Parent (Grid Container)</h2>
+      </header>
+      <article>
+        <h3>Display</h3>
+<p>Defines the element as a grid container and establishes a new grid formatting context for its contents.</p><br>
+
+        <p>Values:</p>
+
+        <p>grid – generates a block-level grid</p>
+<p>inline-grid – generates an inline-level grid</p>
+        
+        <code>.container {
+  display: grid | inline-grid;
+        }</code>
+      
+      <p>Note: The ability to pass grid parameters down through nested elements (aka subgrids) has been moved to level 2 of the CSS Grid specification.</p>
+      
+      <h3>Grid-template-columns</h3>
+      <h3>Grid-template-rows</h3>
+<p>Defines the columns and rows of the grid with a space-separated list of values. The values represent the track size, and the space between them represents the grid line.</p>
+
+      <p>Values:</p>
+
+<ul><li><track-size> can be a length, a percentage, or a fraction of the free space in the grid (using the fr unit)</li>
+  <li><line-name> an arbitrary name of your choosing</li></ul>
+      
+      <code>.container {
+  grid-template-columns:  ... |   ...;
+  grid-template-rows:  ... |   ...;
+        }</code>
+      
+      <p>Examples:</p>
+
+<p>When you leave an empty space between the track values, the grid lines are automatically assigned positive and negative numbers:</p>
+      
+      <xmp>.container {
+  grid-template-columns: 40px 50px auto 50px 40px;
+  grid-template-rows: 25% 100px auto;
+        }</xmp>
+      
+      
+      <img src="https://css-tricks.com/wp-content/uploads/2018/11/template-columns-rows-01.svg" alt="description" height="350" width="350" longdesc="" />
+
+      
+      <p>But you can choose to explicitly name the lines. Note the bracket syntax for the line names:</p>
+      
+      <xmp>.container {
+  grid-template-columns: [first] 40px [line2] 50px [line3] auto [col4-start] 50px [five] 40px [end];
+  grid-template-rows: [row1-start] 25% [row1-end] 100px [third-line] auto [last-line];
+        }</xmp>
+      
+      <img src="https://css-tricks.com/wp-content/uploads/2018/11/template-column-rows-02.svg" alt="description" height="350" width="350" longdesc="" />
+      
+      <p>Note that a line can have more than one name. For example, here the second line will have two names: row1-end and row2-start:</p>
+      
+      <code>.container {
+  grid-template-rows: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+        }</code>
+      
+    <p>If your definition contains repeating parts, you can use the repeat() notation to streamline things:</p>
+      
+      <xmp>.container {
+  grid-template-columns: repeat(3, 20px [col-start]);
+        }</xmp>
+      
+      <p>Which is equivalent to this:</p>
+      
+      <code>.container {
+  grid-template-columns: 20px [col-start] 20px [col-start] 20px [col-start];
+        }</code>
+      
+      <p>If multiple lines share the same name, they can be referenced by their line name and count.</p>
+      
+      <xmp>.item {
+  grid-column-start: col-start 2;
+        }</xmp>
+      
+      <p>The fr unit allows you to set the size of a track as a fraction of the free space of the grid container. For example, this will set each item to one third the width of the grid container:</p>
+      
+      <xmp>.container {
+  grid-template-columns: 1fr 1fr 1fr;
+        }</xmp>
+      
+      <p>The free space is calculated after any non-flexible items. In this example the total amount of free space available to the fr units doesn’t include the 50px:</p>
+      
+      <xmp>.container {
+  grid-template-columns: 1fr 50px 1fr 1fr;
+        }</xmp>
+      
+      <h3>grid-template-areas</h3>
+<li>Defines a grid template by referencing the names of the grid areas which are specified with the grid-area property.</li> <li> Repeating the name of a grid area causes the content to span those cells. A period signifies an empty cell. The syntax itself provides a visualization of the structure of the grid.</li>
+
+      <h3>Values:</h3>
+
+      <p><xmp><grid-area-name></xmp> – the name of a grid area specified with grid-area
+. – a period signifies an empty grid cell
+        none – no grid areas are defined</p>
+        
+       <xmp> .container {
+  grid-template-areas: 
+    " | . | none | ..."
+    "...";
+         }</xmp>
+        
+      <p>Example:</p>
+      
+      <xmp>.item-a {
+  grid-area: header;
+}
+.item-b {
+  grid-area: main;
+}
+.item-c {
+  grid-area: sidebar;
+}
+.item-d {
+  grid-area: footer;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 50px 50px 50px 50px;
+  grid-template-rows: auto;
+  grid-template-areas: 
+    "header header header header"
+    "main main . sidebar"
+    "footer footer footer footer";
+        }</xmp>
+        
+      
+      <li>That’ll create a grid that’s four columns wide by three rows tall. The entire top row will be composed of the header area. The middle row will be composed of two main areas, one empty cell, and one sidebar area. The last row is all footer.</li>
+      
+      <img src="https://css-tricks.com/wp-content/uploads/2018/11/dddgrid-template-areas.svg" alt="description" height="350" width="350" longdesc="" />
+      
+      <p>Each row in your declaration needs to have the same number of cells.</p>
+
+<li>You can use any number of adjacent periods to declare a single empty cell. As long as the periods have no spaces between them they represent a single cell.</li>
+
+<li>Notice that you’re not naming lines with this syntax, just areas. When you use this syntax the lines on either end of the areas are actually getting named automatically. If the name of your grid area is foo, the name of the area’s starting row line and starting column line will be foo-start, and the name of its last row line and last column line will be foo-end. This means that some lines might have multiple names, such as the far left line in the above example, which will have three names: header-start, main-start, and footer-start.</li>
+      
+      <h3>grid-template</h3>
+<li>A shorthand for setting grid-template-rows, grid-template-columns, and grid-template-areas in a single declaration.</li>
+
+      <p>Values:</p>
+
+      <p>none – sets all three properties to their initial values</p>
+<p><grid-template-rows> / <grid-template-columns> – sets grid-template-columns and grid-template-rows to the specified values, respectively, and sets grid-template-areas to none</p>
+      
+<xmp>.container {
+  grid-template: none | <grid-template-rows> / <grid-template-columns>;
+  }</xmp>
+  
+  <p>It also accepts a more complex but quite handy syntax for specifying all three. Here’s an example:</p>
+  
+  <xmp>.container {
+  grid-template:
+    [row1-start] "header header header" 25px [row1-end]
+    [row2-start] "footer footer footer" 25px [row2-end]
+    / auto 50px auto;
+    }</xmp>
+  
+  <p>That’s equivalent to this:</p>
+  
+  <xmp>.container {
+  grid-template-rows: [row1-start] 25px [row1-end row2-start] 25px [row2-end];
+  grid-template-columns: auto 50px auto;
+  grid-template-areas: 
+    "header header header" 
+    "footer footer footer";
+    }</xmp>
+  
+  <p>Since grid-template doesn’t reset the implicit grid properties (grid-auto-columns, grid-auto-rows, and grid-auto-flow), which is probably what you want to do in most cases, it’s recommended to use the grid property instead of grid-template.</p>
+  
+  <h3>column-gap</h3>
+  <h3>row-gap</h3>
+  <h3>grid-column-gap</h3>
+  <h3>grid-row-gap</h3>
+  
+  <p>Specifies the size of the grid lines. You can think of it like setting the width of the gutters between the columns/rows.
+
+Values:
+
+    <xmp> <line-size></xmp> – a length value</p>
+    
+    <xmp>.container {
+  /* standard */
+  column-gap: <line-size>;
+  row-gap: <line-size>;
+
+  /* old */
+  grid-column-gap: <line-size>;
+  grid-row-gap: <line-size>;
+      }</xmp>
+      
+      <p>Example:</p>
+      
+      <xmp>.container {
+  grid-template-columns: 100px 50px 100px;
+  grid-template-rows: 80px auto 80px; 
+  column-gap: 10px;
+  row-gap: 15px;
+        }</xmp>
+      
+      <img src="https://css-tricks.com/wp-content/uploads/2018/11/dddgrid-gap.svg" alt="description" height="350" width="350" longdesc="" />
+      
+      <p>The gutters are only created between the columns/rows, not on the outer edges.
+
+Note: The grid- prefix will be removed and grid-column-gap and grid-row-gap renamed to column-gap and row-gap. The unprefixed properties are already supported in Chrome 68+, Safari 11.2 Release 50+ and Opera 54+.</p>
+      
+      
+      <p>gap
+grid-gap
+A shorthand for row-gap and column-gap
+
+Values:
+
+        <xmp><grid-row-gap> <grid-column-gap></xmp> – length values</p>
+          
+          <xmp>.container {
+  /* standard */
+  gap: <grid-row-gap> <grid-column-gap>;
+
+  /* old */
+  grid-gap: <grid-row-gap> <grid-column-gap>;
+            }</xmp>
+            
+            <p>Example:</p>
+            
+            <xmp>.container {
+  grid-template-columns: 100px 50px 100px;
+  grid-template-rows: 80px auto 80px; 
+  gap: 15px 10px;
+              }</xmp>
+            
+            <p>If no row-gap is specified, it’s set to the same value as column-gap</p>
+
+<p>Note: The grid- prefix is deprecated (but who knows, may never actually be removed from browsers). Essentially grid-gap renamed to gap. The unprefixed property is already supported in Chrome 68+, Safari 11.2 Release 50+, and Opera 54+.</p>
+            
+            <h3>justify-items</h3>
+<p>Aligns grid items along the inline (row) axis (as opposed to align-items which aligns along the block (column) axis). This value applies to all grid items inside the container.</p>
+
+            <p>Values:</p>
+
+<p>start – aligns items to be flush with the start edge of their cell
+end – aligns items to be flush with the end edge of their cell
+center – aligns items in the center of their cell
+  stretch – fills the whole width of the cell (this is the default)</p>
+            
+            
+       <xmp>.container {
+  justify-items: start | end | center | stretch;
+         }</xmp>
+            
+            <p>Examples:</p>
+            
+            <xmp>.container {
+  justify-items: start;
+              }</xmp>
+            
+            <img src="https://css-tricks.com/wp-content/uploads/2018/11/justify-items-start.svg" alt="description" height="350" width="350" longdesc="" />
+            
+            <xmp>.container {
+  justify-items: end;
+              }</xmp>
+            
+            <img src="https://css-tricks.com/wp-content/uploads/2018/11/justify-items-end.svg" alt="description" height="350" width="350" longdesc="" />
+            
+           <xmp>.container {
+  justify-items: center;
+             }</xmp>
+            
+           <img src="https://css-tricks.com/wp-content/uploads/2018/11/justify-items-center.svg" alt="description" height="350" width="350" longdesc="" /> 
+            
+            <xmp>.container {
+  justify-items: stretch;
+              }</xmp>
+            
+            <img src="https://css-tricks.com/wp-content/uploads/2018/11/justify-items-stretch.svg" alt="description" height="350" width="350" longdesc="" /> 
+            
+      
+            <p>This behavior can also be set on individual grid items via the justify-self property.</p>
+            
+            <h3>align-items</h3>
+<p>Aligns grid items along the block (column) axis (as opposed to justify-items which aligns along the inline (row) axis). This value applies to all grid items inside the container.</p>
+
+            <p>Values:</p>
+
+            
+<p>start – aligns items to be flush with the start edge of their cell
+end – aligns items to be flush with the end edge of their cell
+center – aligns items in the center of their cell
+  stretch – fills the whole height of the cell (this is the default)</p>
+            
+            <xmp>.container {
+  align-items: start | end | center | stretch;
+              }</xmp>
+            
+            <p>Examples:</p>
+            
+            <xmp>.container {
+  align-items: start;
+              }</xmp>
+            
+          <img src="https://css-tricks.com/wp-content/uploads/2018/11/align-items-start.svg" alt="description" height="350" width="350" longdesc="" />   
+            
+            
+<xmp>.container {
+  align-items: end;
+  }</xmp>
+            
+           <img src="https://css-tricks.com/wp-content/uploads/2018/11/align-items-end.svg" alt="description" height="350" width="350" longdesc="" />   
+            
+            <xmp>.container {
+  align-items: center;
+              }</xmp>
+            
+        <img src="https://css-tricks.com/wp-content/uploads/2018/11/align-items-center.svg" alt="description" height="350" width="350" longdesc="" />      
+     
+            <xmp>.container {
+  align-items: stretch;
+              }</xmp>
+            
+      <img src="https://css-tricks.com/wp-content/uploads/2018/11/align-items-stretch.svg" alt="description" height="350" width="350" longdesc="" />            
+            
+            
+            
+            
+            
+      
+      </article>
+    </section>
+
+    <section id="properties_for_the_children_(grid_items)" class="main-section">
+      <header>
+        <h2>Properties for the Children (Grid Items)</h2>
+      </header>
+      <article>
+        <p>Note:</p>
+<p>float, display: inline-block, display: table-cell, vertical-align and column-* properties have no effect on a grid item.</p>
+        
+        <h3>grid-column-start</h3>
+        <h3>grid-column-end</h3>
+        <h3>grid-row-start</h3>
+        <h3>grid-row-end</h3>
+<p>Determines a grid item’s location within the grid by referring to specific grid lines. grid-column-start/grid-row-start is the line where the item begins, and grid-column-end/grid-row-end is the line where the item ends.</p>
+
+        <p>Values:</p>
+
+        <p><xmp><line></xmp> – can be a number to refer to a numbered grid line, or a name to refer to a named grid line
+          span <xmp><number></xmp> – the item will span across the provided number of grid tracks
+          span <xmp><name></xmp> – the item will span across until it hits the next line with the provided name
+          auto – indicates auto-placement, an automatic span, or a default span of one</p>
+          
+          <xmp>.item {
+  grid-column-start: <number> | <name> | span <number> | span <name> | auto;
+  grid-column-end: <number> | <name> | span <number> | span <name> | auto;
+  grid-row-start: <number> | <name> | span <number> | span <name> | auto;
+  grid-row-end: <number> | <name> | span <number> | span <name> | auto;
+            }</xmp>
+            
+            <p>Examples:</p>
+            
+            <xmp>.item-a {
+  grid-column-start: 2;
+  grid-column-end: five;
+  grid-row-start: row1-start;
+  grid-row-end: 3;
+              }</xmp>
+            
+         <img src="https://css-tricks.com/wp-content/uploads/2018/11/grid-column-row-start-end-01.svg" alt="description" height="350" width="350" longdesc="" />   
+            
+            <xmp>.item-b {
+  grid-column-start: 1;
+  grid-column-end: span col4-start;
+  grid-row-start: 2;
+  grid-row-end: span 2;
+}
+            </xmp>
+            
+          <img src="https://css-tricks.com/wp-content/uploads/2018/11/grid-column-row-start-end-02.svg" alt="description" height="350" width="350" longdesc="" />   
+            
+            <p>If no grid-column-end/grid-row-end is declared, the item will span 1 track by default.</p>
+
+            <p>Items can overlap each other. You can use z-index to control their stacking order.</p>
+            
+            <h3>grid-column</h3>
+            <h3>grid-row</h3>
+<p>Shorthand for grid-column-start + grid-column-end, and grid-row-start + grid-row-end, respectively.</p>
+
+            <p>Values:</p>
+
+            <p><xmp><start-line></xmp> / <xmp><end-line></xmp> – each one accepts all the same values as the longhand version, including span</p>
+              
+              
+              <xmp>.item {
+  grid-column: <start-line> / <end-line> | <start-line> / span <value>;
+  grid-row: <start-line> / <end-line> | <start-line> / span <value>;
+                }</xmp>
+                
+                <p>Example:</p>
+                
+                <xmp>.item-c {
+  grid-column: 3 / span 2;
+  grid-row: third-line / 4;
+                  }</xmp>
+                
+             <img src="https://css-tricks.com/wp-content/uploads/2018/11/grid-column-row.svg" alt="description" height="350" width="350" longdesc="" />   
+
+                <p>If no end line value is declared, the item will span 1 track by default.</p>
+                
+                <h3>grid-area</h3>
+<p>Gives an item a name so that it can be referenced by a template created with the grid-template-areas property. Alternatively, this property can be used as an even shorter shorthand for grid-row-start + grid-column-start + grid-row-end + grid-column-end.</p>
+
+                <p>Values:</p>
+
+                <p><xmp><name></xmp> – a name of your choosing
+                  <xmp><row-start></xmp> / <xmp><column-start></xmp> / <xmp><row-end></xmp> / <xmp><column-end></xmp> – can be numbers or named</p> 
+                    
+                    <xmp>.item {
+  grid-area: <name> | <row-start> / <column-start> / <row-end> / <column-end>;
+                      }</xmp>
+                      
+                      <p>Examples:</p>
+
+                      <p>As a way to assign a name to the item:</p>
+                      
+                      <xmp>.item-d {
+  grid-area: header;
+                        }</xmp>
+                      
+                      <p>As the short-shorthand for grid-row-start + grid-column-start + grid-row-end + grid-column-end:</p>
+                      
+                      <xmp>.item-d {
+  grid-area: 1 / col4-start / last-line / 6;
+                        }</xmp>
+                      
+                   <img src="https://css-tricks.com/wp-content/uploads/2018/11/grid-area.svg" alt="description" height="350" width="350" longdesc="" />   
+  
+                      
+                      <h3>justify-self</h3>
+<p>Aligns a grid item inside a cell along the inline (row) axis (as opposed to align-self which aligns along the block (column) axis). This value applies to a grid item inside a single cell.</p>
+
+                      <p>Values:</p>
+
+                      <p>start – aligns the grid item to be flush with the start edge of the cell</p>
+                      <p>end – aligns the grid item to be flush with the end edge of the cell</p>
+                      <p>center – aligns the grid item in the center of the cell</p>
+                      <p>stretch – fills the whole width of the cell (this is the default</p>
+                      
+                      <xmp>.item {
+  justify-self: start | end | center | stretch;
+                        }</xmp>
+                      
+                      <p>Examples:<p>
+                      
+                      <xmp>.item-a {
+  justify-self: start;
+                        }</xmp>
+                      
+                    <img src="https://css-tricks.com/wp-content/uploads/2018/11/justify-self-start.svg" alt="description" height="350" width="350" longdesc="" />    
+
+                      <xmp>.item-a {
+  justify-self: end;
+                        }</xmp>
+                      
+                     <img src="https://css-tricks.com/wp-content/uploads/2018/11/justify-self-end.svg" alt="description" height="350" width="350" longdesc="" />   
+                      
+                      <xmp>.item-a {
+  justify-self: center;
+                        }</xmp>
+                      
+                    <img src="https://css-tricks.com/wp-content/uploads/2018/11/justify-self-center.svg" alt="description" height="350" width="350" longdesc="" />  
+
+<xmp>.item-a {
+  justify-self: stretch;
+  }</xmp>
+                      
+             <img src="https://css-tricks.com/wp-content/uploads/2018/11/justify-self-stretch.svg" alt="description" height="350" width="350" longdesc="" />       
+                      
+                      
+                      <p>To set alignment for all the items in a grid, this behavior can also be set on the grid container via the justify-items property.</p>
+                      
+                      <h3>align-self</h3>
+<p>Aligns a grid item inside a cell along the block (column) axis (as opposed to justify-self which aligns along the inline (row) axis). This value applies to the content inside a single grid item.</p>
+
+                      <p>Values:</p>
+
+                      <p>start – aligns the grid item to be flush with the start edge of the cell</p>
+                      <p>end – aligns the grid item to be flush with the end edge of the cell</p>
+                      <p>center – aligns the grid item in the center of the cell</p>
+                      <p>stretch – fills the whole height of the cell (this is the default)</p>
+                      
+                      <xmp>.item {
+  align-self: start | end | center | stretch;
+                        }</xmp>
+                      
+                      <p>Examples:</p>
+                      
+                      <xmp>.item-a {
+  align-self: start;
+                        }</xmp>
+                      
+                <img src="https://css-tricks.com/wp-content/uploads/2018/11/align-self-start.svg" alt="description" height="350" width="350" longdesc="" />       
+
+
+                      <xmp>.item-a {
+  align-self: end;
+                        }</xmp>
+                      
+                    <img src="https://css-tricks.com/wp-content/uploads/2018/11/align-self-end.svg" alt="description" height="350" width="350" longdesc="" />   
+
+                      
+                      <xmp>.item-a {
+  align-self: center;
+                        }</xmp>
+                      
+                  <img src="https://css-tricks.com/wp-content/uploads/2018/11/align-self-center.svg" alt="description" height="350" width="350" longdesc="" />  
+                      
+                      <xmp>.item-a {
+  align-self: stretch;
+                        }</xmp>
+                      
+                    <img src="https://css-tricks.com/wp-content/uploads/2018/11/align-self-stretch.svg" alt="description" height="350" width="350" longdesc="" />  
+                      
+                      <p>To align all the items in a grid, this behavior can also be set on the grid container via the align-items property.</p>
+                      
+                      
+                      place-self
+place-self sets both the align-self and justify-self properties in a single declaration.
+
+                      <h3>Values:</h3>
+
+                      <p>auto – The “default” alignment for the layout mode.</p>
+                      <p><xmp><align-self></xmp> / <xmp><justify-self></xmp> – The first value sets align-self, the second value justify-self. If the second value is omitted, the first value is assigned to both properties.</p>
+                        <p>Examples:</p>
+                        
+                        <xmp>.item-a {
+  place-self: center;
+                          }</xmp>
+                        
+                 <img src="https://css-tricks.com/wp-content/uploads/2018/11/place-self-center.svg" alt="description" height="350" width="350" longdesc="" />     
+                        
+                        <xmp>.item-a {
+  place-self: center stretch;
+                          }</xmp>
+                        
+                      <img src="https://css-tricks.com/wp-content/uploads/2018/11/place-self-center-stretch.svg" alt="description" height="350" width="350" longdesc="" />  
+                        
+                        <p>All major browsers except Edge support the place-self shorthand property.</p>
+                        
+                        
+                        
+                      
+                      
+                      
+                      
+                      
+                      
+          
+      </article>
+    </section>
+
+    <section id="animation" class="main-section">
+      <header>
+        <h2>Animation</h2>
+      </header>
+      <article>
+      <p>According to the CSS Grid Layout Module Level 1 specification, there are 5 animatable grid properties:</p>
+
+<p>grid-gap, grid-row-gap, grid-column-gap as length, percentage, or calc.
+grid-template-columns, grid-template-rows as a simple list of length, percentage, or calc, provided the only differences are the values of the length, percentage, or calc components in the list.</p>
+        
+        <h3>Browser Support of CSS Grid properties</h3>
+        
+        <p>As of May 7th, 2018, only the animation of (grid-)gap, (grid-)row-gap, (grid-)column-gap is implemented in any of the tested browsers.</p>
+ 
+      </article>
+    </section>
+    <section id="Reference" class="main-section">
+      <header>
+        <h2>Reference</h2>
+      </header>
+      <article>
+      <p>All the documentation in this page is taken from <a href="https://css-tricks.com/snippets/css/complete-guide-grid/">CSS-Tricks</a></p>
+      </article>
+    </section>
+   </div>
+  </main>
+  
+  <footer></footer>
+</body>
+<!-- partial -->
+  <script  src="./script.js"></script>
+
+</body>
+</html>
